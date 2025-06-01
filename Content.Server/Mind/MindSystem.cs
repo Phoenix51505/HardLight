@@ -95,6 +95,10 @@ public sealed class MindSystem : SharedMindSystem
         return false;
     }
 
+    public ICommonSession? GetSession(MindComponent mind)
+    {
+        return mind.Session;
+    }
     public override void WipeAllMinds()
     {
         base.WipeAllMinds();

@@ -42,7 +42,6 @@ using Content.Shared.Access;
 using Content.Shared._NF.Bank.BUI;
 using Content.Shared._NF.ShuttleRecords;
 using Content.Server.StationEvents.Components;
-using Content.Shared._Mono.Company;
 using Content.Shared.Forensics.Components;
 using Content.Shared.Shuttles.Components;
 using Robust.Server.Player;
@@ -205,14 +204,6 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
             return;
         }
 
-        // Add company information to the shuttle
-        if (TryComp<CompanyComponent>(player, out var playerCompany) &&
-            !string.IsNullOrEmpty(playerCompany.CompanyName))
-        {
-            var shipCompany = EnsureComp<CompanyComponent>(shuttleUid);
-            shipCompany.CompanyName = playerCompany.CompanyName;
-            Dirty(shuttleUid, shipCompany);
-        }
 
         EntityUid? shuttleStation = null;
         // setting up any stations if we have a matching game map prototype to allow late joins directly onto the vessel

@@ -1,7 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Content.Shared._Mono;
-using Content.Shared._Mono.Company;
 using Content.Shared.CombatMode.Pacification;
 using Content.Shared.Ghost;
 using Content.Shared.Mind;
@@ -231,27 +230,6 @@ public sealed class GridPacifierSystem : EntitySystem
         // Only apply Pacified to organic entities
         if (!IsOrganic(entityUid))
             return;
-
-        // Check if the entity is from an exempt company
-        if (TryComp<CompanyComponent>(entityUid, out var companyComp) && 
-            !string.IsNullOrEmpty(companyComp.CompanyName))
-        {
-            // Check against all three exempt company slots
-            if ((!string.IsNullOrEmpty(component.ExemptCompany1) && companyComp.CompanyName == component.ExemptCompany1) ||
-                (!string.IsNullOrEmpty(component.ExemptCompany2) && companyComp.CompanyName == component.ExemptCompany2) ||
-                (!string.IsNullOrEmpty(component.ExemptCompany3) && companyComp.CompanyName == component.ExemptCompany3))
-            {
-                // Entity is from an exempt company
-                // If they were previously pacified, remove the pacification
-                if (component.PacifiedEntities.Contains(entityUid))
-                {
-                    RemovePacified(entityUid);
-                    component.PacifiedEntities.Remove(entityUid);
-                }
-                return;
-            }
-        }
-
         ApplyPacified(gridUid, entityUid, component);
     }
 
